@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<project name="PWCBuildProcess" basedir="." default="jar">
+<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+<property file="ibuildpwc.properties"/>
+
+<!--INITIALIZATION START-->
+<!--#######################################################################################################-->	
+<!-- TASK 1 -->
+<target name="SetClassPath" description="set the required classpath elements">
+    
+	<echo message="Initializing ........" />
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	<echo message="Compiling with Java ${ant.java.version}"/>
+    <echo message="Classpath = ${ematrix.servlet.dir};${ematrix.properties.dir};${application.server.lib.dir}"/>
+</target>
+<!--#######################################################################################################-->
+<!--INITIALIZATION FINISH-->
+
+<!--#######################################################################################################-->
+
+<target name="jar" depends="SetClassPath"> 
+	<echo message="${listModuleName}" />
+	 <foreach list="${listModuleName}" target="buildJar" param="moduleName" delimiter="," />
+</target>
+
+<target name="buildJar" description="${moduleName} Jar Creation"> 
+<!--
+	<mkdir dir="${build.dir}/${moduleName}"/>
+	<echo message="${moduleName}"/>
+			<javac srcdir="${build.dir}/${moduleName}"
+				   destdir="C:/Users/ankur.patel/Desktop/"
+				   
+				   debug="${debug}"
+				   deprecation="${deprecation}"
+				   optimize="${optimize}"
+				   includes="com/**">
+				 <classpath refid="classpath"/>
+			</javac>
+	<jar jarfile="${enovia.lib.dir}/${moduleName}.jar" basedir="${build.dir}/${moduleName}"/>
+-->
+	<echo message="${moduleName} JAR HAS BEEN CREATED !! "/>
+</target>
+
+
+</project>
