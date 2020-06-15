@@ -63,8 +63,8 @@ if "%~2"=="" (
 	echo.
 	echo ############ TAKING FILES FROM REPOSITORY #############
 	
-	REM git clone --branch %originTag% https://github.com/ankurptl18/scm.git %sourceDir%/%originTag%/
-	REM git clone --branch %targetTag% https://github.com/ankurptl18/scm.git %sourceDir%/%targetTag%/
+	git clone --branch %originTag% https://github.com/ankurptl18/scm.git %sourceDir%/%originTag%/
+	git clone --branch %targetTag% https://github.com/ankurptl18/scm.git %sourceDir%/%targetTag%/
 	
 	echo ############ ALL FILES HAS BEEN CHECKED OUT ###########
 	echo.
