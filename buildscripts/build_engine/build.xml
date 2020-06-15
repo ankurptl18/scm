@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<project name="PWCBuildProcess" basedir="." default="jar">
+<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+<property file="resolveDependency.properties"/>
+<property file="../build.properties"/>
+
+<!-- INITIALIZING CLASSPATH : START -->
+<!--#######################################################################################################-->	
+<!-- TASK 1 -->
+<target name="SetClassPath" description="set the required classpath elements">
+	<path id="classpath">
+		    <fileset dir="${jarDestDir}/">
+			 <include name="*.jar"/>
+		   </fileset>
+	</path>
+	<echo message="Compiling with Java ${ant.java.version}"/>
+    <echo message="Classpath = ${jarDestDir}"/>
+</target>
+<!--#######################################################################################################-->
+<!-- INITIALIZING CLASSPATH : END -->
+
+<!-- TARGET TO LOOP THE DEPENDENCY : START  -->
+<!--#######################################################################################################-->
+<!-- TASK 2 -->
+<target name="jar" depends="SetClassPath"> 
+	<echo message="${dependencies}" />
+	<foreach list="${dependencies}" target="buildJar" param="moduleName" delimiter="," />
+</target>
+<!--#######################################################################################################-->
+<!-- TARGET TO LOOP THE DEPENDENCY : END -->
+
+<!-- TARGET TO COMPILE ,BUILD & COPY JAR FOR MODULE : START -->
+<!--#######################################################################################################-->
+<target name="buildJar" description="${moduleName} Jar Creation" depends="SetClassPath"> 
+	
+	<!-- Module Name is from resolveDependency.properties -->
+	<echo message="Building Module          : ${moduleName}"/>
+	
+	<!-- Below two variable are being passed to ant at runtime -->
+	<echo message="Source Code Directory    : ${jarSrcCodeDir}/${moduleName}"/>
+	<echo message="JAR Destination Directory: ${jarDestDir}/${moduleName}.jar"/>
+	
+	<!-- Build directory is being read from build.properties -->
+	<echo message="Creating Build Directory : ${build.dir}/${moduleName}"/>
+		
+	<!-- CLASS FILE DIRECTORY LOCATION -->
+	<mkdir dir="${build.dir}/${moduleName}"/>
+	<javac srcdir="${jarSrcCodeDir}/${moduleName}"
+		   destdir="${build.dir}/${moduleName}"			
+		   includeantruntime="true"
+		   includes="src/**"
+		   nowarn="on">
+		 <classpath refid="classpath"/>
+	</javac>
+	
+	<!-- CREATING JAR FILE AND MOVING TO DESTINATION LOCATION -->
+	<jar jarfile="${jarDestDir}/${moduleName}.jar" basedir="${build.dir}/${moduleName}" update="false"/>
+
+	<echo message="${moduleName} JAR HAS BEEN CREATED !! "/>
+</target>
+<!--#######################################################################################################-->
+<!-- TARGET TO COMPILE ,BUILD & COPY JAR FOR MODULE : END -->
+</project>
