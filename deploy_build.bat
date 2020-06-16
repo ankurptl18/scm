@@ -17,9 +17,6 @@ echo Source Directory	: %sourceDir%
 set currentDir=%cd%
 echo Current Directory	: %currentDir%
 
-set deltaBuildTargetStrDirName=%sourceDir%/pwc.%repoBranchName%.%originTag%_%targetTag%/
-set fullTargetStrDirName=%sourceDir%/pwc.%repoBranchName%.%targetTag%/
-
 echo. 
 echo **************************************************************
 
@@ -32,6 +29,8 @@ REM Printing all parameters provided to debug, if required
 	echo Parameters: %*
 )
 
+set deltaBuildTargetStrDirName=%sourceDir%/pwc.%repoBranchName%.%originTag%_%targetTag%/
+set fullTargetStrDirName=%sourceDir%/pwc.%repoBranchName%.%targetTag%/
 
 REM rmdir /Q /S "%sourceDir%/%originTag%/.git"
 REM rmdir /Q /S "%sourceDir%/%targetTag%/.git"
