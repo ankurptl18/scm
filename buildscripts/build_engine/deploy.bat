@@ -15,7 +15,7 @@ set jarFilesLocation=%~dp0/tools
 
 echo.
 echo ############ SOURCE STRUCTURE TRANSFORMATION 		: STARTED ############
-java -jar %jarFilesLocation%/pwcSourceTransform.jar master %originTag% %targetTag% %sourceDir%/
+	java -jar %jarFilesLocation%/pwcSourceTransform.jar master %originTag% %targetTag% %sourceDir%/
 echo ############ SOURCE STRUCTURE TRANSFORMATION 		: END     ############
 
 echo.
@@ -28,6 +28,6 @@ echo.
 
 echo ############ SOURCE CODE JAR CREATION BY ANT	    : STARTED ############
 echo.
-call ant -buildfile %currentDirLocation%/build.xml jar -DjarSrcCodeDir=%sourceDir%/%targetTag%/sourcecode/java -DjarDestDir=%targetStructureDirName%/server/enovia/WEB-INF/lib
+	call ant -buildfile %currentDirLocation%/build.xml jar -DjarSrcCodeDir=%sourceDir%/%targetTag%/sourcecode/java -DjarDestDir=%targetStructureDirName%
 echo.
 echo ############ SOURCE CODE JAR CREATION BY ANT	    : ENDED   ############
