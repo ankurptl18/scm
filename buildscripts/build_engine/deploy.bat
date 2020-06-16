@@ -14,20 +14,18 @@ REM DIRECTORY OF JAR FILES
 set jarFilesLocation=%~dp0/tools
 
 echo.
-echo ############ SOURCE STRUCTURE TRANSFORMATION 		: STARTED ############
+echo ############ SOURCE STRUCTURE TRANSFORMATION 	: STARTED ############
 	java -jar %jarFilesLocation%/pwcSourceTransform.jar master %originTag% %targetTag% %sourceDir%/
-echo ############ SOURCE STRUCTURE TRANSFORMATION 		: END     ############
+echo ############ SOURCE STRUCTURE TRANSFORMATION 	: END     ############
 
 echo.
 echo ############ PROCESS FOR JAR DEPENDENCY RESOLUTION	: STARTED ############
-echo.
 	java -jar %jarFilesLocation%/PWCJarDependencyResolution.jar %targetTag% %sourceDir%/
-echo.
 echo ############ PROCESS FOR JAR DEPENDENCY RESOLUTION	: ENDED   ############
 echo.
 
-echo ############ SOURCE CODE JAR CREATION BY ANT	    : STARTED ############
+echo ############ SOURCE CODE JAR CREATION BY ANT	: STARTED ############
 echo.
 	call ant -buildfile %currentDirLocation%/build.xml jar -DjarSrcCodeDir=%sourceDir%/%targetTag%/sourcecode/java -DjarDestDir=%targetStructureDirName%
 echo.
-echo ############ SOURCE CODE JAR CREATION BY ANT	    : ENDED   ############
+echo ############ SOURCE CODE JAR CREATION BY ANT	: ENDED   ############
