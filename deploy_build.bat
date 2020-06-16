@@ -1,5 +1,7 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal EnableDelayedExpansion
+
+set SERVER_BUILD_PROPERTIES_FILE=C:/Users/ANKUR/Desktop/build.properties
 
 echo **************************************************************
 echo ******************** SETTING UP PARAMETERS *******************
@@ -15,6 +17,9 @@ echo Source Directory	: %sourceDir%
 set currentDir=%cd%
 echo Current Directory	: %currentDir%
 
+set deltaBuildTargetStrDirName=%sourceDir%/pwc.%repoBranchName%.%originTag%_%targetTag%/
+set fullTargetStrDirName=%sourceDir%/pwc.%repoBranchName%.%targetTag%/
+
 echo. 
 echo **************************************************************
 
@@ -27,28 +32,32 @@ REM Printing all parameters provided to debug, if required
 	echo Parameters: %*
 )
 
+
+REM rmdir /Q /S "%sourceDir%/%originTag%/.git"
+REM rmdir /Q /S "%sourceDir%/%targetTag%/.git"
+
+echo.
+echo ############ PLEASE PROVIDE BELOW DETAILS #############
+echo.
+	set /p repoUserName="Enter Repository User name : "
+	set /p repoPassword="Enter Repository Password  : "
+echo.
+
 REM Validating if origin tag is provided
 if "%~2"=="" (
 	echo **************************************************************
 	echo ******************* FULL BUILD	: STARTS *********************
-	
-	echo.
-	echo ############ PLEASE PROVIDE BELOW DETAILS #############
-	echo.
-		set /p repoUserName="Enter Repository User name : "
-		set /p repoPassword="Enter Repository Password  : "
-	echo.
-	
+		
 	echo ############ TAKING FILES FROM REPOSITORY #############
-		git clone --branch %targetTag% https://github.com/ankurptl18/scm.git %sourceDir%/%targetTag%/
+	git clone --branch %targetTag% https://github.com/ankurptl18/scm.git %sourceDir%/%targetTag%/
+	
+	rmdir /Q /S "%sourceDir%/%targetTag%/.git"
 	
 	echo ############ ALL FILES HAS BEEN CHECKED OUT ###########
 	echo.
 	
-	set targetStructureDirName=%sourceDir%/pwc.%repoBranchName%.%targetTag%/
-	
 	echo ############ PACKAGE TRANSFORMATION : STARTS ###########
-		call %sourceDir%/%targetTag%/buildscripts/deploy.bat %originTag% %targetTag% %sourceDir% %targetStructureDirName%
+		call %sourceDir%/%targetTag%/buildscripts/build_engine/deploy.bat %originTag% %targetTag% %sourceDir% %fullBuildTargetStrDirName%
 	echo ############ PACKAGE TRANSFORMATION : END ###########
 	
 	echo ******************* FULL BUILD	: ENDS ***********************
@@ -57,23 +66,18 @@ if "%~2"=="" (
 	echo **************************************************************
 	echo ********************* DELTA BUILD STARTS *********************
 	
-		set /p repoUserName="Enter Repository User name : "
-		set /p repoPassword="Enter Repository Password  : "
-
-	echo.
-	echo ############ TAKING FILES FROM REPOSITORY #############
-	
 	git clone --branch %originTag% https://github.com/ankurptl18/scm.git %sourceDir%/%originTag%/
 	git clone --branch %targetTag% https://github.com/ankurptl18/scm.git %sourceDir%/%targetTag%/
+	
+	rmdir /Q /S "%sourceDir%/%originTag%/.git"
+	rmdir /Q /S "%sourceDir%/%targetTag%/.git"
 	
 	echo ############ ALL FILES HAS BEEN CHECKED OUT ###########
 	echo.
 	
-	set targetStructureDirName=%sourceDir%/pwc.%repoBranchName%.%originTag%_%targetTag%/
-	echo %targetStructureDirName%
 	echo ############ BUILD PROCEDURE : STARTS 		 ###########   
-		call %sourceDir%/%targetTag%/buildscripts/build_engine/deploy.bat %originTag% %targetTag% %sourceDir% %targetStructureDirName%
+		call %sourceDir%/%targetTag%/buildscripts/build_engine/deploy.bat %originTag% %targetTag% %sourceDir% %deltaBuildTargetStrDirName%
 	echo ############ BUILD PROCEDURE : ENDS 		 ###########   
 		
-	echo **************************************************************
+	echo ********************* DELTA BUILD ENDS *********************
 )
