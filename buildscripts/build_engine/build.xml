@@ -1,13 +1,23 @@
 <?xml version="1.0" ?>
 <project name="PWCBuildProcess" basedir="." default="jar">
-<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
 <property file="resolveDependency.properties"/>
+<property environment="env"/>
+<property file="${env.SERVER_BUILD_PROPERTIES_FILE}"/>
 <property file="../build.properties"/>
+
+<taskdef resource="net/sf/antcontrib/antlib.xml">
+	<classpath>
+		<pathelement location="${ant.home}/lib/ant-contrib-1.0b3.jar" />
+	</classpath>
+</taskdef>
+
+<property name="server.enovia.web-inf.lib" value="/server/enovia/WEB-INF/lib/" />
 
 <!-- INITIALIZING CLASSPATH : START -->
 <!--#######################################################################################################-->	
 <!-- TASK 1 -->
-<target name="SetClassPath" description="set the required classpath elements">
+<target name="SetClassPath" description="Set the required classpath elements">
 	<path id="classpath">
 		    <fileset dir="${jarDestDir}/">
 			 <include name="*.jar"/>
@@ -54,9 +64,10 @@
 	</javac>
 	
 	<!-- CREATING JAR FILE AND MOVING TO DESTINATION LOCATION -->
-	<jar jarfile="${jarDestDir}/${moduleName}.jar" basedir="${build.dir}/${moduleName}" update="false"/>
+	<jar jarfile="${jarDestDir}/${server.enovia.web-inf.lib}/${moduleName}.jar" basedir="${build.dir}/${moduleName}" update="false"/>
 
 	<echo message="${moduleName} JAR HAS BEEN CREATED !! "/>
+	
 </target>
 <!--#######################################################################################################-->
 <!-- TARGET TO COMPILE ,BUILD & COPY JAR FOR MODULE : END -->
