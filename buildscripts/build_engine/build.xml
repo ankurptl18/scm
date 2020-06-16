@@ -19,7 +19,7 @@
 <!-- TASK 1 -->
 <target name="SetClassPath" description="Set the required classpath elements">
 	<path id="classpath">
-		    <fileset dir="${jarDestDir}/">
+		    <fileset dir="${jarDestDir}/${server.enovia.web-inf.lib}/">
 			 <include name="*.jar"/>
 		   </fileset>
 	</path>
@@ -48,7 +48,7 @@
 	
 	<!-- Below two variable are being passed to ant at runtime -->
 	<echo message="Source Code Directory    : ${jarSrcCodeDir}/${moduleName}"/>
-	<echo message="JAR Destination Directory: ${jarDestDir}/${moduleName}.jar"/>
+	<echo message="JAR Destination Directory: ${jarDestDir}/${server.enovia.web-inf.lib}/${moduleName}.jar"/>
 	
 	<!-- Build directory is being read from build.properties -->
 	<echo message="Creating Build Directory : ${build.dir}/${moduleName}"/>
@@ -65,7 +65,7 @@
 	
 	<!-- CREATING JAR FILE AND MOVING TO DESTINATION LOCATION -->
 	<jar jarfile="${jarDestDir}/${server.enovia.web-inf.lib}/${moduleName}.jar" basedir="${build.dir}/${moduleName}" update="false"/>
-
+	<echo message="${env.SERVER_BUILD_PROPERTIES_FILE}"/>
 	<echo message="${moduleName} JAR HAS BEEN CREATED !! "/>
 	
 </target>
